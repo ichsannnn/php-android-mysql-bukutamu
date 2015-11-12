@@ -80,41 +80,36 @@ public class SemuaBukuTamu extends ListActivity{
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    JSONObject json = jParser.makeHttpRequest(url_semua_bukutamu, "GET", params);
-                    Log.d("Semua Buku Tamu : ", json.toString());
+        protected String doInBackground(String... args) {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            JSONObject json = jParser.makeHttpRequest(url_semua_bukutamu, "GET", params);
+            Log.d("Semua Buku Tamu : ", json.toString());
 
-                    try {
-                        int success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
-                            pendaftaran = json.getJSONArray(TAG_PENDAFTARAN);
-                            for (int i = 0; i < pendaftaran.length(); i++) {
-                                JSONObject c = pendaftaran.getJSONObject(i);
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    pendaftaran = json.getJSONArray(TAG_PENDAFTARAN);
+                    for (int i = 0; i < pendaftaran.length(); i++) {
+                        JSONObject c = pendaftaran.getJSONObject(i);
 
-                                String id = c.getString(TAG_PID);
-                                String name = c.getString(TAG_NAME);
+                        String id = c.getString(TAG_PID);
+                        String name = c.getString(TAG_NAME);
 
-                                HashMap<String, String> map = new HashMap<String, String>();
+                        HashMap<String, String> map = new HashMap<String, String>();
 
-                                map.put(TAG_PID, id);
-                                map.put(TAG_NAME, name);
+                        map.put(TAG_PID, id);
+                        map.put(TAG_NAME, name);
 
-                                bukutamuList.add(map);
-                            }
-                        } else {
-                            Intent i = new Intent(getApplicationContext(), TambahBukuTamu.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        bukutamuList.add(map);
                     }
+                } else {
+                    Intent i = new Intent(getApplicationContext(), TambahBukuTamu.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }

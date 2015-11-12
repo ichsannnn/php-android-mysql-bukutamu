@@ -132,36 +132,31 @@ public class EditBukuTamu extends Activity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String name = txtName.getText().toString();
-                    String email = txtEmail.getText().toString();
-                    String description = txtDesc.getText().toString();
+        protected String doInBackground(String... args) {
+            String name = txtName.getText().toString();
+            String email = txtEmail.getText().toString();
+            String description = txtDesc.getText().toString();
 
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair(TAG_PID, pid));
-                    params.add(new BasicNameValuePair(TAG_NAME, name));
-                    params.add(new BasicNameValuePair(TAG_EMAIL, email));
-                    params.add(new BasicNameValuePair(TAG_DESCRIPTION, description));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair(TAG_PID, pid));
+            params.add(new BasicNameValuePair(TAG_NAME, name));
+            params.add(new BasicNameValuePair(TAG_EMAIL, email));
+            params.add(new BasicNameValuePair(TAG_DESCRIPTION, description));
 
-                    JSONObject json = jsonParser.makeHttpRequest(url_update_pendaftaran, "POST", params);
+            JSONObject json = jsonParser.makeHttpRequest(url_update_pendaftaran, "POST", params);
 
-                    try {
-                        int success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
-                            Intent i = getIntent();
-                            setResult(100, i);
-                            finish();
-                        } else {
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Intent i = getIntent();
+                    setResult(100, i);
+                    finish();
+                } else {
 
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -184,29 +179,24 @@ public class EditBukuTamu extends Activity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    int success;
-                    try {
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("pid", pid));
+        protected String doInBackground(String... args) {
+            int success;
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("pid", pid));
 
-                        JSONObject json = jsonParser.makeHttpRequest(url_delete_pendaftaran, "POST", params);
-                        Log.d("Hapus data", json.toString());
+                JSONObject json = jsonParser.makeHttpRequest(url_delete_pendaftaran, "POST", params);
+                Log.d("Hapus data", json.toString());
 
-                        success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
-                            Intent i = getIntent();
-                            setResult(100, i);
-                            finish();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Intent i = getIntent();
+                    setResult(100, i);
+                    finish();
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }

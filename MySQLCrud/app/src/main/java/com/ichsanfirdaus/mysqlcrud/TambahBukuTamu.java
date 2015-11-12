@@ -60,36 +60,31 @@ public class TambahBukuTamu extends Activity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String name = inputName.getText().toString();
-                    String email = inputEmail.getText().toString();
-                    String description = inputDesc.getText().toString();
+        protected String doInBackground(String... args) {
+            String name = inputName.getText().toString();
+            String email = inputEmail.getText().toString();
+            String description = inputDesc.getText().toString();
 
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("name", name));
-                    params.add(new BasicNameValuePair("email", email));
-                    params.add(new BasicNameValuePair("description", description));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("email", email));
+            params.add(new BasicNameValuePair("description", description));
 
-                    JSONObject json = jsonParser.makeHttpRequest(url_tambah_pendaftaran, "POST", params);
-                    Log.d("Create response", json.toString());
+            JSONObject json = jsonParser.makeHttpRequest(url_tambah_pendaftaran, "POST", params);
+            Log.d("Create response", json.toString());
 
-                    try {
-                        int success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
-                            Intent i = new Intent(getApplicationContext(), SemuaBukuTamu.class);
-                            startActivity(i);
-                            finish();
-                        } else {
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Intent i = new Intent(getApplicationContext(), SemuaBukuTamu.class);
+                    startActivity(i);
+                    finish();
+                } else {
 
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
